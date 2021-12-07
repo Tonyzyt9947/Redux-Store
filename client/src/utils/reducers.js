@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+
 import {
   UPDATE_PRODUCTS,
   ADD_TO_CART,
@@ -11,11 +11,20 @@ import {
   TOGGLE_CART,
 } from './actions';
 
+const initialState = {
+  products:[],
+  cartOpen: false,
+  cart: [],
+  categories: [],
+  currentCategory: ''
+};
+
 // TODO: To get a better understand of how a reducer works - add comments to the various actions in the reducer
-export const reducer = (state, action) => {
+// The function passes initialState values, can be overwritten by client inputs
+export default function reducer(state = initialState, action){
   switch (action.type) {
     // TODO: Add a comment describing the functionality of the UPDATE_PRODUCTS case
-    // Your comment here
+    // Client input changes state and updates products
     case UPDATE_PRODUCTS:
       return {
         ...state,
@@ -35,7 +44,7 @@ export const reducer = (state, action) => {
         cart: [...state.cart, ...action.products],
       };
     // TODO: Add a comment describing the functionality of the UPDATE_CART_QUANTITY case
-    // Your comment here
+    // Client input changes state and updates purchased quantity
     case UPDATE_CART_QUANTITY:
       return {
         ...state,
@@ -49,7 +58,7 @@ export const reducer = (state, action) => {
       };
 
     // TODO: Add a comment describing the functionality of the REMOVE_FROM_CART case
-    // Your comment here
+    // Client input changes state and updates cart state
     case REMOVE_FROM_CART:
       let newState = state.cart.filter((product) => {
         return product._id !== action._id;
@@ -87,12 +96,8 @@ export const reducer = (state, action) => {
       };
 
     // TODO: Add a comment describing what the default case is for
-    // Your comment here
+    // make sure state will be returned regardless of any other factors
     default:
       return state;
   }
 };
-
-export function useProductReducer(initialState) {
-  return useReducer(reducer, initialState);
-}
